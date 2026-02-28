@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alireza Abolhasani Zeraatkar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:        #0b0e14;
+      --bg2:       #111520;
+      --bg3:       #161b27;
+      --border:    #1e2535;
+      --accent:    #4f8ef7;
+      --accent2:   #f7a24f;
+      --text:      #dce3f0;
+      --muted:     #7a8499;
+      --serif:     'DM Serif Display', Georgia, serif;
+      --mono:      'DM Mono', 'Courier New', monospace;
+      --sans:      'DM Sans', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ---- NOISE TEXTURE OVERLAY ---- */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ---- LAYOUT ---- */
+    .wrapper {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ---- NAV ---- */
+    nav {
+      position: sticky; top: 0;
+      background: rgba(11,14,20,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      padding: 0.85rem 0;
+    }
+    nav .inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    nav .logo {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.8rem;
+    }
+    nav ul a {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav ul a:hover { color: var(--text); }
+
+    /* ---- HERO ---- */
+    .hero {
+      padding: 7rem 0 4rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 3rem;
+      align-items: start;
+    }
+    .hero-text {}
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.1s;
+    }
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: 1.4rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.2s;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent2);
+    }
+    .hero-bio {
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.75;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.3s;
+    }
+    .hero-bio strong { color: var(--text); font-weight: 500; }
+    .hero-links {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.4s;
+    }
+    .hero-links a {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .hero-links a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .hero-links a.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .hero-links a.primary:hover {
+      background: transparent;
+      color: var(--accent);
+    }
+
+    .hero-avatar {
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.2s;
+    }
+    .avatar-ring {
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      padding: 4px;
+      background: var(--bg2);
+      position: relative;
+    }
+    .avatar-ring::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 1px dashed var(--border);
+      animation: spin 20s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .avatar-ring img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      filter: grayscale(20%);
+    }
+    .avatar-placeholder {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--bg3), var(--border));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--serif);
+      font-size: 2.5rem;
+      color: var(--accent);
+    }
+
+    /* ---- DIVIDER ---- */
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ---- SECTIONS ---- */
+    section {
+      padding: 4rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+    }
+    .section-label span {
+      color: var(--border);
+      margin-right: 0.5rem;
+    }
+    h2 {
+      font-family: var(--serif);
+      font-size: 1.9rem;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    /* ---- RESEARCH INTERESTS ---- */
+    .interests-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 1.5rem;
+    }
+    .interest-card {
+      background: var(--bg2);
+      padding: 1.4rem 1.6rem;
+      transition: background 0.2s;
+    }
+    .interest-card:hover { background: var(--bg3); }
+    .interest-card .icon {
+      font-size: 1.2rem;
+      margin-bottom: 0.6rem;
+    }
+    .interest-card h3 {
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+    .interest-card p {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ---- PUBLICATIONS ---- */
+    .pub-list { display: flex; flex-direction: column; gap: 1px; }
+    .pub {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.4rem 1.6rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1.2rem;
+      align-items: start;
+      transition: border-color 0.2s, background 0.2s;
+      margin-bottom: 0.75rem;
+    }
+    .pub:hover { border-color: var(--accent); background: var(--bg3); }
+    .pub-year {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--accent2);
+      letter-spacing: 0.06em;
+      padding-top: 0.2rem;
+      white-space: nowrap;
+    }
+    .pub-venue {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      background: rgba(79,142,247,0.12);
+      color: var(--accent);
+      border: 1px solid rgba(79,142,247,0.25);
+      border-radius: 2px;
+      padding: 0.15rem 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .pub h3 {
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+      line-height: 1.4;
+    }
+    .pub-authors {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .pub-authors strong { color: var(--text); font-weight: 500; }
+    .pub-link {
+      display: inline-block;
+      margin-top: 0.6rem;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: opacity 0.2s;
+    }
+    .pub-link:hover { opacity: 0.7; }
+
+    /* ---- EXPERIENCE ---- */
+    .exp-list { display: flex; flex-direction: column; }
+    .exp {
+      display: grid;
+      grid-template-columns: 1px 1fr;
+      gap: 0 1.8rem;
+      padding-bottom: 2.5rem;
+      position: relative;
+    }
+    .exp-line {
+      background: var(--border);
+      position: relative;
+    }
+    .exp-line::before {
+      content: '';
+      position: absolute;
+      top: 6px; left: 50%;
+      transform: translateX(-50%);
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+    }
+    .exp-body {}
+    .exp-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.3rem;
+      flex-wrap: wrap;
+    }
+    .exp-date {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--accent2);
+      letter-spacing: 0.06em;
+    }
+    .exp-tag {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+      background: rgba(247,162,79,0.1);
+      color: var(--accent2);
+      border: 1px solid rgba(247,162,79,0.2);
+      border-radius: 2px;
+      padding: 0.1rem 0.45rem;
+    }
+    .exp h3 {
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.1rem;
+    }
+    .exp-org {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .exp ul {
+      padding-left: 1.1rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .exp ul li { margin-bottom: 0.3rem; }
+    .exp ul li::marker { color: var(--accent); }
+
+    /* ---- SKILLS ---- */
+    .skills-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .skill-row {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 1rem;
+      align-items: baseline;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .skill-row:last-child { border-bottom: none; }
+    .skill-label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 0.2rem 0.55rem;
+      letter-spacing: 0.03em;
+      transition: all 0.15s;
+    }
+    .tag:hover { border-color: var(--muted); color: var(--text); }
+
+    /* ---- EDUCATION ---- */
+    .edu-list { display: flex; flex-direction: column; gap: 1rem; }
+    .edu {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.2rem 1.6rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.5rem;
+      transition: border-color 0.2s;
+    }
+    .edu:hover { border-color: var(--muted); }
+    .edu h3 {
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .edu-degree {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+    .edu-year {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--accent2);
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      padding-top: 0.15rem;
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ---- ANIMATIONS ---- */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 640px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-avatar { order: -1; }
+      .avatar-ring { width: 110px; height: 110px; }
+      .skill-row { grid-template-columns: 1fr; gap: 0.4rem; }
+      nav ul { gap: 1rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="inner">
+    <a href="#" class="logo">alirezaa.github.io</a>
+    <ul>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#publications">Papers</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrapper">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-text">
+      <h1>Alireza<br><em>Abolhasani</em><br>Zeraatkar</h1>
+      <p class="hero-bio">
+        PhD student researching the intersection of <strong>machine learning and computer architecture</strong> ·
+        applying statistical learning, information-theoretic methods, and intelligent agents to automate
+        hardware verification, detect hardware-level security threats, and improve
+        <strong>high-performance computing systems</strong>.
+        Published at IEEE and international venues.
+      </p>
+      <div class="hero-links">
+        <a href="https://linkedin.com/in/alireza-abolhasani" target="_blank">LinkedIn</a>
+        <a href="https://github.com/alireza-abolhasani" target="_blank">GitHub</a>
+        <a href="mailto:abolhasani@ucdavis.edu">Email</a>
+        <a href="resume_alireza_v4.pdf" class="primary">Download CV</a>
+      </div>
+    </div>
+    <div class="hero-avatar">
+      <div class="avatar-ring">
+        <img src="photo.jpg" alt="Alireza" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="avatar-placeholder" style="display:none;">A</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESEARCH INTERESTS -->
+  <section id="research">
+    <div class="section-label"><span>//</span>Research Interests</div>
+    <div class="interests-grid">
+      <div class="interest-card">
+        <div class="icon">⬡</div>
+        <h3>Hardware Verification</h3>
+        <p>RTL fuzzing, assertion checking, coverage-guided exploration using MCMC &amp; Bayesian optimization</p>
+      </div>
+      <div class="interest-card">
+        <div class="icon">◈</div>
+        <h3>ML × Architecture</h3>
+        <p>Applying learned models to architectural problems · performance prediction, malware detection via HPCs</p>
+      </div>
+      <div class="interest-card">
+        <div class="icon">⬗</div>
+        <h3>Hardware Security</h3>
+        <p>Automated repair &amp; debugging of hardware designs, fault injection, error-resilient edge computing</p>
+      </div>
+      <div class="interest-card">
+        <div class="icon">⬡</div>
+        <h3>Intelligent Agents</h3>
+        <p>LLM-driven agents for design-space exploration, LangChain/LangGraph pipelines for systems tasks</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section id="publications">
+    <div class="section-label"><span>//</span>Publications</div>
+
+    <div class="pub-list">
+      <div class="pub">
+        <div class="pub-year">2024</div>
+        <div>
+          <div class="pub-venue">SmartNets 2024</div>
+          <h3>On the Performance of Malware Detection Classifiers Using Hardware Performance Counters</h3>
+          <div class="pub-authors">
+            <strong>Alireza Abolhasani Zeraatkar</strong>, Parnian Shabani Kamran, Inderpreet Kaur,
+            Nagabindu Ramu, Tyler Sheaves, Hussain Al-Asaad
+          </div>
+          <a class="pub-link" href="https://ieeexplore.ieee.org/document/10577644" target="_blank">↗ IEEE Xplore</a>
+        </div>
+      </div>
+
+      <div class="pub">
+        <div class="pub-year">2024</div>
+        <div>
+          <div class="pub-venue">IEEE CCWC 2024</div>
+          <h3>Advancements in Secure Computing: Exploring Automated Repair, Debugging, and Verification Techniques for Hardware Design</h3>
+          <div class="pub-authors">
+            <strong>Alireza Abolhasani Zeraatkar</strong>, Parnian Shabani Kamran, Hussain Al-Asaad
+          </div>
+          <a class="pub-link" href="https://ieeexplore.ieee.org/document/10427806" target="_blank">↗ IEEE Xplore</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label"><span>//</span>Research &amp; Work Experience</div>
+    <div class="exp-list">
+
+      <div class="exp">
+        <div class="exp-line"></div>
+        <div class="exp-body">
+          <div class="exp-meta">
+            <span class="exp-date">Jun 2024 – Sep 2024</span>
+            <span class="exp-tag">Internship</span>
+          </div>
+          <h3>R&amp;D CITRIS Workforce Innovation Program · Summer Intern</h3>
+          <div class="exp-org">CITRIS and the Banatao Institute, University of California, Davis</div>
+          <ul>
+            <li>Designed an RTL fuzzing framework to automate hardware verification, targeting assertion violations, timing errors, and unreachable states; benchmarked against state-of-the-art techniques.</li>
+            <li>Engineered a dynamic mutation strategy with an ε-greedy seed selection mechanism, framed within MCMC methods and Bayesian optimization, using information-theoretic coverage metrics.</li>
+            <li>Architected integration with industry-standard hardware simulation tools for seamless end-to-end deployment in production environments.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp">
+        <div class="exp-line"></div>
+        <div class="exp-body">
+          <div class="exp-meta">
+            <span class="exp-date">Sep 2021 – Feb 2026</span>
+            <span class="exp-tag">Research</span>
+          </div>
+          <h3>Researcher</h3>
+          <div class="exp-org">University of California, Davis, CA</div>
+          <ul>
+            <li>Integrated ML and information-theoretic foundations into the HDL fuzzing loop to identify unreachable states and complex edge cases; published findings at IEEE CCWC.</li>
+            <li>Implemented an end-to-end supervised learning pipeline for malware detection using Hardware Performance Counters; 144 experiments across 20 classifiers · published at SmartNets 2024.</li>
+            <li>Demonstrated a 100% detection rate for single-bit upsets within the multiplier unit during RTL simulation, providing a robust foundation for error-resilient edge computing.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-label"><span>//</span>Skills</div>
+    <div class="skills-grid">
+      <div class="skill-row">
+        <span class="skill-label">Languages</span>
+        <div class="skill-tags">
+          <span class="tag">Python</span><span class="tag">C</span><span class="tag">C++</span>
+          <span class="tag">CUDA</span><span class="tag">Rust</span><span class="tag">Chisel</span>
+          <span class="tag">SystemVerilog</span><span class="tag">SQL</span><span class="tag">RISC-V Asm</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <span class="skill-label">AI / ML</span>
+        <div class="skill-tags">
+          <span class="tag">PyTorch</span><span class="tag">TensorFlow</span><span class="tag">JAX</span>
+          <span class="tag">Scikit-Learn</span><span class="tag">Hugging Face</span><span class="tag">ONNX</span>
+          <span class="tag">W&amp;B</span><span class="tag">LangChain</span><span class="tag">LangGraph</span>
+          <span class="tag">Pandas</span><span class="tag">NumPy</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <span class="skill-label">Hardware &amp; Arch</span>
+        <div class="skill-tags">
+          <span class="tag">GEM5</span><span class="tag">FireSim</span><span class="tag">DISKSIM</span>
+          <span class="tag">QEMU</span><span class="tag">LLVM</span><span class="tag">Omnet++</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <span class="skill-label">Parallel &amp; HPC</span>
+        <div class="skill-tags">
+          <span class="tag">CUDA</span><span class="tag">MPI</span><span class="tag">OpenMP</span>
+          <span class="tag">Cilk++</span><span class="tag">NCCL</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <span class="skill-label">Debug &amp; Profile</span>
+        <div class="skill-tags">
+          <span class="tag">GDB</span><span class="tag">Valgrind</span><span class="tag">Perf</span>
+          <span class="tag">AddressSanitizer</span><span class="tag">Intel VTune</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <span class="skill-label">DevOps</span>
+        <div class="skill-tags">
+          <span class="tag">Docker</span><span class="tag">Kubernetes</span><span class="tag">Terraform</span>
+          <span class="tag">Helm</span><span class="tag">Bazel</span><span class="tag">CI/CD</span>
+          <span class="tag">gRPC</span><span class="tag">Git</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <span class="skill-label">Testing</span>
+        <div class="skill-tags">
+          <span class="tag">Google Test</span><span class="tag">Google Mock</span>
+          <span class="tag">pytest</span><span class="tag">Google C++ Style</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-label"><span>//</span>Education</div>
+    <div class="edu-list">
+      <div class="edu">
+        <div>
+          <h3>University of California, Davis</h3>
+          <div class="edu-degree">PhD, Electrical and Computer Engineering &nbsp;·&nbsp; GPA: 3.56</div>
+        </div>
+        <div class="edu-year">Expected 2027</div>
+      </div>
+      <div class="edu">
+        <div>
+          <h3>Sharif University of Technology</h3>
+          <div class="edu-degree">Master of Science, Computer Engineering</div>
+        </div>
+        <div class="edu-year"></div>
+      </div>
+      <div class="edu">
+        <div>
+          <h3>Isfahan University of Technology</h3>
+          <div class="edu-degree">Bachelor of Science, Computer Engineering</div>
+        </div>
+        <div class="edu-year"></div>
+      </div>
+    </div>
+
+  </section>
+
+</div><!-- /wrapper -->
+
+<div class="wrapper">
+  <footer>
+    <span>© 2026 Alireza Abolhasani Zeraatkar</span>
+    <span>
+      <a href="https://linkedin.com/in/alireza-abolhasani">LinkedIn</a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/alireza-abolhasani">GitHub</a>
+      &nbsp;·&nbsp;
+      <a href="mailto:abolhasani@ucdavis.edu">abolhasani@ucdavis.edu</a>
+      &nbsp;·&nbsp;
+      Bay Area, CA
+    </span>
+  </footer>
+
+</div><!-- /wrapper -->
+
+</body>
+</html>
